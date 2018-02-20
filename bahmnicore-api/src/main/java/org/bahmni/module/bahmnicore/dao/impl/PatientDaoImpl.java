@@ -23,6 +23,7 @@ import org.openmrs.Patient;
 import org.openmrs.PatientIdentifier;
 import org.openmrs.PatientIdentifierType;
 import org.openmrs.RelationshipType;
+import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.bahmniemrapi.visitlocation.BahmniVisitLocationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,24 +78,19 @@ public class PatientDaoImpl implements PatientDao {
                                                               String programAttributeFieldName, String[] addressSearchResultFields,
                                                               String[] patientSearchResultFields, String loginLocationUuid,
                                                               Boolean filterPatientsByLocation, Boolean filterOnAllIdentifiers) {
-
+        PatientService service = Context.getPatientService();
         validateSearchParams(customAttributeFields, programAttributeFieldName, addressFieldName);
 
-        List<PatientIdentifier> patientIdentifiers = getPatientIdentifiers(identifier, filterOnAllIdentifiers, offset, length);
-        List<Integer> patientIds = patientIdentifiers.stream().map(patientIdentifier -> patientIdentifier.getPatient().getPatientId()).collect(toList());
-        Map<Object, Object> programAttributes = Context.getService(BahmniProgramWorkflowService.class).getPatientProgramAttributeByAttributeName(patientIds, programAttributeFieldName);
+        List<Patient> patients = service.getPatients(identifier, false, offset, length);
+
+        List<Integer> patientIds = patients.stream().map(Patient::getPatientId).collect(toList());
         PatientResponseMapper patientResponseMapper = new PatientResponseMapper(Context.getVisitService(),new BahmniVisitLocationServiceImpl(Context.getLocationService()));
-        Set<Integer> uniquePatientIds = new HashSet<>();
-        List<PatientResponse> patientResponses = patientIdentifiers.stream()
-                .map(patientIdentifier -> {
-                    Patient patient = patientIdentifier.getPatient();
-                    if(!uniquePatientIds.contains(patient.getPatientId())) {
-                        PatientResponse patientResponse = patientResponseMapper.map(patient, loginLocationUuid, patientSearchResultFields, addressSearchResultFields,
-                                programAttributes.get(patient.getPatientId()));
-                        uniquePatientIds.add(patient.getPatientId());
-                        return patientResponse;
-                    }else
-                        return null;
+        Map<Object, Object> programAttributes = Context.getService(BahmniProgramWorkflowService.class).getPatientProgramAttributeByAttributeName(patientIds, programAttributeFieldName);
+
+        List<PatientResponse> patientResponses = patients.stream()
+                .map(patient -> {
+                    PatientResponse patientResponse = patientResponseMapper.map(patient,loginLocationUuid,patientSearchResultFields,addressSearchResultFields,programAttributes.get(patient.getPatientId()));
+                    return patientResponse;
                 }).filter(Objects::nonNull)
                 .collect(toList());
         return patientResponses;
