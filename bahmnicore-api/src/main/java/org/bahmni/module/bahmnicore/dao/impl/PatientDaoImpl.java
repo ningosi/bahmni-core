@@ -49,6 +49,9 @@ public class PatientDaoImpl implements PatientDao {
         this.sessionFactory = sessionFactory;
     }
 
+    @Autowired
+    private PatientService patientService;
+
     @Override
     public List<PatientResponse> getPatients(String identifier, String name, String customAttribute,
                                              String addressFieldName, String addressFieldValue, Integer length,
@@ -78,10 +81,10 @@ public class PatientDaoImpl implements PatientDao {
                                                               String programAttributeFieldName, String[] addressSearchResultFields,
                                                               String[] patientSearchResultFields, String loginLocationUuid,
                                                               Boolean filterPatientsByLocation, Boolean filterOnAllIdentifiers) {
-        PatientService service = Context.getPatientService();
+
         validateSearchParams(customAttributeFields, programAttributeFieldName, addressFieldName);
 
-        List<Patient> patients = service.getPatients(identifier, false, offset, length);
+        List<Patient> patients = patientService.getPatients(identifier, false, offset, length);
 
         List<Integer> patientIds = patients.stream().map(Patient::getPatientId).collect(toList());
         PatientResponseMapper patientResponseMapper = new PatientResponseMapper(Context.getVisitService(),new BahmniVisitLocationServiceImpl(Context.getLocationService()));
