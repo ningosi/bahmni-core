@@ -19,21 +19,6 @@ public class Activator extends BaseModuleActivator {
 
 		log.info("Started the Bahmni Core module");
 		BahmniCoreProperties.load();
-
-		GlobalProperty object = service.getGlobalPropertyObject(OpenmrsConstants.GLOBAL_PROPERTY_PATIENT_IDENTIFIER_SEARCH_MATCH_MODE);
-		if(object == null ){
-			object = new GlobalProperty(OpenmrsConstants.GLOBAL_PROPERTY_PATIENT_SEARCH_MATCH_ANYWHERE);
-		}
-		if(object.getPropertyValue() == null) {
-			object.setPropertyValue(OpenmrsConstants.GLOBAL_PROPERTY_PATIENT_SEARCH_MATCH_ANYWHERE);
-			service.saveGlobalProperty(object);
-
-		}
-		else if(object.getPropertyValue() != null && !(object.getPropertyValue().equals(OpenmrsConstants.GLOBAL_PROPERTY_PATIENT_SEARCH_MATCH_ANYWHERE))) {
-			//replace the value with anywhere
-			object.setPropertyValue(OpenmrsConstants.GLOBAL_PROPERTY_PATIENT_SEARCH_MATCH_ANYWHERE);
-			service.saveGlobalProperty(object);
-		}
     }
 
 	@Override
