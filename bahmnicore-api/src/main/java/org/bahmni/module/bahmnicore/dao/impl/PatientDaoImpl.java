@@ -81,7 +81,7 @@ public class PatientDaoImpl implements PatientDao {
                                                               String programAttributeFieldName, String[] addressSearchResultFields,
                                                               String[] patientSearchResultFields, String loginLocationUuid,
                                                               Boolean filterPatientsByLocation, Boolean filterOnAllIdentifiers) {
-
+        PatientService service = Context.getPatientService();
         validateSearchParams(customAttributeFields, programAttributeFieldName, addressFieldName);
 
         List<Patient> patients = patientService.getPatients(identifier, false, offset, length);
