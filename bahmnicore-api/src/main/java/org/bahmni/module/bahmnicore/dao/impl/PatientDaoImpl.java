@@ -44,15 +44,13 @@ import static java.util.stream.Collectors.toList;
 public class PatientDaoImpl implements PatientDao {
 
     private SessionFactory sessionFactory;
-
-    @Autowired
-    public PatientDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
-    @Autowired
-    @Qualifier("patientService")
     private PatientService patientService;
+
+    @Autowired
+    public PatientDaoImpl(SessionFactory sessionFactory, PatientService patientService) {
+        this.sessionFactory = sessionFactory;
+        this.patientService = patientService;
+    }
 
     @Override
     public List<PatientResponse> getPatients(String identifier, String name, String customAttribute,
@@ -83,7 +81,6 @@ public class PatientDaoImpl implements PatientDao {
                                                               String programAttributeFieldName, String[] addressSearchResultFields,
                                                               String[] patientSearchResultFields, String loginLocationUuid,
                                                               Boolean filterPatientsByLocation, Boolean filterOnAllIdentifiers) {
-        PatientService service = Context.getPatientService();
         validateSearchParams(customAttributeFields, programAttributeFieldName, addressFieldName);
 
         List<Patient> patients = patientService.getPatients(identifier, false, offset, length);
