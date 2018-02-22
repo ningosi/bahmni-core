@@ -27,6 +27,7 @@ import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.bahmniemrapi.visitlocation.BahmniVisitLocationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,6 +51,7 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     @Autowired
+    @Qualifier("patientService")
     private PatientService patientService;
 
     @Override
