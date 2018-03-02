@@ -83,7 +83,24 @@ public class PatientDaoImpl implements PatientDao {
                                                               Boolean filterPatientsByLocation, Boolean filterOnAllIdentifiers) {
         validateSearchParams(customAttributeFields, programAttributeFieldName, addressFieldName);
 
-        List<Patient> patients = patientService.getPatients(identifier, false, offset, length);
+        Set<Patient> patients = new HashSet<>();
+
+        if(identifier != null && !identifier.isEmpty()){
+            patients.addAll(patientService.getPatients(identifier, false, offset, length));
+            if(name != null && !name.isEmpty()){
+                patients.retainAll( patientService.getPatients(name, false, offset, length));
+            }
+            if(customAttribute != null && !customAttribute.isEmpty()){
+                patients.retainAll( patientService.getPatients(customAttribute, false, offset, length));
+            }
+        }else if(name != null && !name.isEmpty()){
+            patients.addAll(patientService.getPatients(name, false, offset, length));
+            if(customAttribute!=null && !customAttribute.isEmpty()){
+                patients.retainAll(patientService.getPatients(customAttribute, false, offset, length));
+            }
+        }else if((customAttribute != null && !customAttribute.isEmpty())){
+            patients.addAll(patientService.getPatients(customAttribute, false, offset, length));
+        }
 
         List<Integer> patientIds = patients.stream().map(Patient::getPatientId).collect(toList());
         PatientResponseMapper patientResponseMapper = new PatientResponseMapper(Context.getVisitService(),new BahmniVisitLocationServiceImpl(Context.getLocationService()));
