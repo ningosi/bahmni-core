@@ -253,7 +253,7 @@ public class BahmniPatientDaoImplLuceneIT extends BaseIntegrationTest {
     }
 
     @Test
-    public void shouldReturnPatientsByIdentifierAndNameMatch(){
+    public void shouldReturnPatientsWhenMatchingIdentifierAndName(){
         List<PatientResponse> patients = patientDao.getPatientsUsingLuceneSearch("GAN200001", "Horatio Peeter Sinha", "", "city_village", "", 100, 0, null,"",null,null,null, "c36006e5-9fbb-4f20-866b-0ece245615a1", false, false);
         assertEquals(1, patients.size());
         PatientResponse patient = patients.get(0);
@@ -263,13 +263,13 @@ public class BahmniPatientDaoImplLuceneIT extends BaseIntegrationTest {
     }
 
     @Test
-    public void shouldNotReturnPatientsByWrongNameAndIdentifierMatch(){
+    public void shouldNotReturnPatientsWhenNotMatchingNameAndIdentifier(){
         List<PatientResponse> patients = patientDao.getPatientsUsingLuceneSearch("GAN200001", "Not Name", "city_village", "city_village", "", 100, 0, null,"",null,null,null, "c36006e5-9fbb-4f20-866b-0ece245615a1", false, false);
         assertEquals(0, patients.size());
     }
 
     @Test
-    public void shouldSearchByIdentifierAndAttribute(){
+    public void shouldSearchWhenMatchingIdentifierAndPersonAttribute(){
         List<PatientResponse> patients = patientDao.getPatientsUsingLuceneSearch("GAN200002", "Horati Sinha", "testCaste1", "city_village", "", 100, 0, null,"",null,null,null, "c36006e5-9fbb-4f20-866b-0ece245615a1", false, false);
         assertEquals(1, patients.size());
         PatientResponse patient = patients.get(0);
@@ -279,7 +279,7 @@ public class BahmniPatientDaoImplLuceneIT extends BaseIntegrationTest {
     }
 
     @Test
-    public void shouldSearchByNameAndAttribute(){
+    public void shouldSearchWhenMatchingNameAndPersonAttribute(){
         List<PatientResponse> patients = patientDao.getPatientsUsingLuceneSearch("", "John Peeter Sinha", "testCaste1testCaste1", "city_village", "", 100, 0, null,"",null,null,null, "c36006e5-9fbb-4f20-866b-0ece245615a1", false, false);
 
         assertEquals(1, patients.size());
@@ -292,14 +292,14 @@ public class BahmniPatientDaoImplLuceneIT extends BaseIntegrationTest {
     }
 
     @Test
-    public void shouldNotSearchByWrongNameAndAttribute(){
+    public void shouldNotSearchWhenNotMatchingNameAndPersonAttribute(){
         List<PatientResponse> patients = patientDao.getPatientsUsingLuceneSearch("", "John Peeter Sinha", "testCaste1", "city_village", "", 100, 0, null,"",null,null,null, "c36006e5-9fbb-4f20-866b-0ece245615a1", false, false);
         assertEquals(0, patients.size());
 
     }
 
     @Test
-    public void shouldReturnPatientsByIdentifierNameAndAttributeMatch(){
+    public void shouldReturnPatientsWhenMatchingIdentifierNameAndPersonAttribute(){
         List<PatientResponse> patients = patientDao.getPatientsUsingLuceneSearch("GAN200001", "Horatio Peeter Sinha", "caste1", "city_village", "", 100, 0, null,"",null,null,null, "c36006e5-9fbb-4f20-866b-0ece245615a1", false, false);
         assertEquals(1, patients.size());
         PatientResponse patient = patients.get(0);
@@ -307,7 +307,7 @@ public class BahmniPatientDaoImplLuceneIT extends BaseIntegrationTest {
     }
 
     @Test
-    public void shouldNotReturnPatientsByWrongIdentifierNameAndAttributeMatch(){
+    public void shouldNotReturnPatientsWhenNotMatchingIdentifierNameAndPersonAttribute(){
         List<PatientResponse> patients = patientDao.getPatientsUsingLuceneSearch("GAN200002", "Horatio Peeter Sinha", "caste1", "city_village", "", 100, 0, null,"",null,null,null, "c36006e5-9fbb-4f20-866b-0ece245615a1", false, false);
         assertEquals(0, patients.size());
     }
