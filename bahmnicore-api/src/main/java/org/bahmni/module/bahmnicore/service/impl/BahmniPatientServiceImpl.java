@@ -1,5 +1,6 @@
 package org.bahmni.module.bahmnicore.service.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.bahmni.module.bahmnicore.contract.patient.PatientSearchParameters;
 import org.bahmni.module.bahmnicore.contract.patient.response.PatientConfigResponse;
 import org.bahmni.module.bahmnicore.contract.patient.response.PatientResponse;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -91,6 +93,21 @@ public class BahmniPatientServiceImpl implements BahmniPatientService {
     @Override
     public List<RelationshipType> getByAIsToB(String aIsToB) {
         return patientDao.getByAIsToB(aIsToB);
+    }
+
+    @Override
+    public List<PatientResponse> luceneHibernateSearch(PatientSearchParameters searchParameters) {
+        List<PatientResponse> luceneResponse = new ArrayList<>();
+        List<PatientResponse> luceneHibernateResponse = new ArrayList<>();
+        if(searchParameters.getIdentifier() != null || searchParameters.getName() != null || searchParameters.getCustomAttribute() != null){
+            luceneResponse = luceneSearch(searchParameters);
+        }
+
+        for(PatientResponse patientResponse: luceneHibernateResponse){
+            //I need to filter this response via hibernate using PatientAddress/PatientProgram
+        }
+
+        return luceneHibernateResponse;
     }
 
 }
