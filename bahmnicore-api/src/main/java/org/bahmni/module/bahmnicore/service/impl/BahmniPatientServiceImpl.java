@@ -102,7 +102,7 @@ public class BahmniPatientServiceImpl implements BahmniPatientService {
     @Override
     public List<PatientResponse> luceneHibernateSearch(PatientSearchParameters searchParameters) {
         List<PatientResponse> luceneHibernateResponse = new ArrayList<>();
-        if(searchParameters.getIdentifier() != null || searchParameters.getName() != null || searchParameters.getCustomAttribute() != null){
+        if(StringUtils.isNotEmpty(searchParameters.getIdentifier()) || StringUtils.isNotEmpty(searchParameters.getName()) || StringUtils.isNotEmpty(searchParameters.getCustomAttribute())){
             List<PatientResponse> luceneResponse = luceneSearch(searchParameters);
 
             for(PatientResponse patientResponse: luceneResponse){

@@ -29,10 +29,10 @@ import static org.junit.Assert.assertEquals;
 public class BahmniPatientServiceImplIT extends BaseIntegrationTest {
 
     @Autowired
-    BahmniPatientService bahmniPatientService;
+    private BahmniPatientService bahmniPatientService;
 
     @Autowired
-    LocationService locationService;
+    private LocationService locationService;
 
     @Autowired
     private AdministrationService adminService;
@@ -46,11 +46,10 @@ public class BahmniPatientServiceImplIT extends BaseIntegrationTest {
     @Autowired
     private SessionFactory sessionFactory;
 
-    private HttpServletRequest mockedRequest = Mockito.mock(HttpServletRequest.class);
-    private HttpServletResponse mockedRsponse = Mockito.mock(HttpServletResponse.class);
-
     @Before
     public void setUp() throws Exception {
+        HttpServletRequest mockedRequest = Mockito.mock(HttpServletRequest.class);
+        HttpServletResponse mockedRsponse = Mockito.mock(HttpServletResponse.class);
         executeDataSet("apiTestData.xml");
         updateSearchIndex();
 
