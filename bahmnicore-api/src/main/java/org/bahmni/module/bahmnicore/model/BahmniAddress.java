@@ -1,10 +1,7 @@
 package org.bahmni.module.bahmnicore.model;
 
-import org.hibernate.search.annotations.Indexed;
-
 import java.util.LinkedHashMap;
 
-@Indexed
 public class BahmniAddress {
 	
 	private String address1;
