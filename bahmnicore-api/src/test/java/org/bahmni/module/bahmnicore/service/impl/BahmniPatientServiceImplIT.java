@@ -9,8 +9,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.openmrs.Concept;
-import org.openmrs.Location;
 import org.openmrs.api.AdministrationService;
 import org.openmrs.api.LocationService;
 import org.openmrs.api.db.hibernate.PersonAttributeHelper;
@@ -23,8 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class BahmniPatientServiceImplIT extends BaseIntegrationTest {
 
@@ -131,7 +127,4 @@ public class BahmniPatientServiceImplIT extends BaseIntegrationTest {
         Assert.assertEquals("Peeter",response.getMiddleName());
         Assert.assertEquals("Sinha",response.getFamilyName());
     }
-
-
-
 }
