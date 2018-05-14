@@ -4257,7 +4257,7 @@
     <changeSet id="201802211437" author="ningosi">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">
-                SELECT COUNT(*) FROM global_property where property = 'patientIdentifierSearch.matchMode';
+                SELECT COUNT(*) FROM global_property where property = 'patientIdentifierSearch.matchMode' AND property_value != 'ANYWHERE';
             </sqlCheck>
         </preConditions>
         <comment>Specify how patient identifiers are matched while searching for a patient</comment>
@@ -4269,7 +4269,7 @@
     <changeSet id="201802281408" author="ningosi">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">
-                SELECT COUNT(*) FROM global_property where property = 'patientSearch.matchMode';
+                SELECT COUNT(*) FROM global_property where property = 'patientSearch.matchMode' AND property_value != 'ANYWHERE';
             </sqlCheck>
         </preConditions>
         <comment>Specify how patient names are matched while searching for a patient</comment>
@@ -4280,7 +4280,7 @@
     <changeSet id="201802281417" author="ningosi">
         <preConditions onFail="MARK_RAN">
             <sqlCheck expectedResult="1">
-                SELECT COUNT(*) FROM global_property where property = 'person.attributeSearchMatchMode';
+                SELECT COUNT(*) FROM global_property where property = 'person.attributeSearchMatchMode' AND property_value != 'ANYWHERE';
             </sqlCheck>
         </preConditions>
         <comment>Specify how person attributes are matched while searching for a patients</comment>
