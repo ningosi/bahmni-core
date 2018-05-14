@@ -27,7 +27,6 @@ import org.openmrs.api.PatientService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.bahmniemrapi.visitlocation.BahmniVisitLocationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,7 +36,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import static java.util.stream.Collectors.reducing;
 import static java.util.stream.Collectors.toList;
 
 @Repository
@@ -45,11 +43,13 @@ public class PatientDaoImpl implements PatientDao {
 
     private SessionFactory sessionFactory;
     private PatientService patientService;
+    private BahmniProgramWorkflowService bahmniProgramWorkflowService;
 
     @Autowired
-    public PatientDaoImpl(SessionFactory sessionFactory, PatientService patientService) {
+    public PatientDaoImpl(SessionFactory sessionFactory, PatientService patientService, BahmniProgramWorkflowService bahmniProgramWorkflowService) {
         this.sessionFactory = sessionFactory;
         this.patientService = patientService;
+        this.bahmniProgramWorkflowService = bahmniProgramWorkflowService;
     }
 
     @Override
@@ -104,7 +104,7 @@ public class PatientDaoImpl implements PatientDao {
 
         List<Integer> patientIds = patients.stream().map(Patient::getPatientId).collect(toList());
         PatientResponseMapper patientResponseMapper = new PatientResponseMapper(Context.getVisitService(),new BahmniVisitLocationServiceImpl(Context.getLocationService()));
-        Map<Object, Object> programAttributes = Context.getService(BahmniProgramWorkflowService.class).getPatientProgramAttributeByAttributeName(patientIds, programAttributeFieldName);
+        Map<Object, Object> programAttributes = bahmniProgramWorkflowService.getPatientProgramAttributeByAttributeName(patientIds, programAttributeFieldName);
 
         List<PatientResponse> patientResponses = patients.stream()
                 .map(patient -> {
