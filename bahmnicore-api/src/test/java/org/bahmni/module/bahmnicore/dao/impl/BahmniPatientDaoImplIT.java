@@ -26,7 +26,6 @@ public class BahmniPatientDaoImplIT extends BaseIntegrationTest {
     private PatientDao patientDao;
     @Rule
     public ExpectedException expectedEx = ExpectedException.none();
-
     @Before
     public void setUp() throws Exception {
         executeDataSet("apiTestData.xml");
