@@ -67,7 +67,7 @@ public class BahmniPatientSearchController extends BaseRestController {
         }
     }
 
-    @RequestMapping(value="luceneHibernate", method = RequestMethod.GET)
+    @RequestMapping(value="quick-search", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<AlreadyPaged<PatientResponse>> luceneHibernateSearch(HttpServletRequest request,
                                                   HttpServletResponse response) throws ResponseException{
